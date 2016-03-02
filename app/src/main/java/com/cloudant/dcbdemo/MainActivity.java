@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     private ArrayAdapter<Message> listAdapter = null;
     private ListView listView = null;
 
+    private String username;
+
     private Datastore datastore;
     private com.cloudant.sync.replication.ReplicationService mReplicationService;
     private ServiceConnection mConnection = new ServiceConnection() {
@@ -53,20 +54,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+        username = getIntent().getStringExtra("username");
+
         setContentView(R.layout.activity_main);
 
         listView = (ListView) findViewById(android.R.id.list);
 
         listAdapter = new ArrayAdapter<Message>(this,R.layout.list_item);
         listView.setAdapter(listAdapter);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainActivity.this.startActivityForResult(new Intent(MainActivity.this,SendMessage.class),1);
+                MainActivity.this.startActivityForResult(new Intent(MainActivity.this,
+                        SendMessage.class), 1);
             }
         });
 
@@ -99,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                 //message
                 if(resultCode == 0){
                     //no error
-                    Message message = new Message("dummy user",data.getStringExtra("message"));
+                    Message message = new Message(username,data.getStringExtra("message"));
                     try {
                         this.datastore.createDocumentFromRevision(message.toRevision());
                         //issue reload.
