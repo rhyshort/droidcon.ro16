@@ -74,8 +74,12 @@ public class ChatActivity extends AppCompatActivity {
         });
 
         //create the service
-        new CreateService().execute();
-        //new CreateDocs().execute();
+        Intent intent = new Intent(ChatActivity.this, ReplicationService.class);
+        ChatActivity.this.bindService(intent,
+                mConnection,
+                Context.BIND_AUTO_CREATE);
+
+
         //set up the datastore
         DatastoreManager manager = DCDatastoreManager.getManager(this);
         try {
@@ -204,28 +208,4 @@ public class ChatActivity extends AppCompatActivity {
         //trigger update and return quickly
         updateMessages();
     }
-
-
-    private class CreateService extends AsyncTask<Void, Void, URI> {
-
-        @Override
-        protected URI doInBackground(Void... params) {
-
-
-
-            return null;
-
-        }
-
-        @Override
-        protected void onPostExecute(URI uri) {
-            super.onPostExecute(uri);
-
-            Intent intent = new Intent(ChatActivity.this, ReplicationService.class);
-            ChatActivity.this.bindService(intent,
-                    mConnection,
-                    Context.BIND_AUTO_CREATE);
-        }
-    }
-
 }
