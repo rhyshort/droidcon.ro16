@@ -183,26 +183,6 @@ public class ChatActivity extends AppCompatActivity {
         super.onStop();
     }
 
-    private class CreateDocs extends AsyncTask<Void,Void,Void>{
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            Message message = new Message("rhyshort","Hello World!");
-
-            for ( int i =0; i< 100; i++){
-                try {
-                    datastore.createDocumentFromRevision(message.toRevision());
-                } catch (DocumentException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            Log.i("Finished!","Finished!");
-
-            return null;
-        }
-    }
-
     @Subscribe
     public void replicationCompleted(ReplicationCompleted replicationCompleted){
         //trigger update and return quickly
