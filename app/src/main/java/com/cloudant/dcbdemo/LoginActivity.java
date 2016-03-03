@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 /**
- * A login screen that offers login via email/password.
+ * A login screen that offers a field to set the username for the current user.
  */
 public class LoginActivity extends AppCompatActivity {
 
@@ -27,15 +27,14 @@ public class LoginActivity extends AppCompatActivity {
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                //bundle data and open next thing.
                 String username = usernameView.getText().toString();
                 if(username.isEmpty() && username.trim().isEmpty()){
                     //show a toast
                     return;
                 }
 
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                intent.putExtra("username", username);
+                Intent intent = new Intent(LoginActivity.this, ChatActivity.class);
+                intent.putExtra(BundleConstants.USERNAME, username);
 
                 LoginActivity.this.startActivity(intent);
 

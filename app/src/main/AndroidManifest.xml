@@ -37,7 +37,7 @@
         <activity android:name=".SendMessage">
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".ChatActivity"
             android:label="@string/app_name">
         </activity>
     </application>

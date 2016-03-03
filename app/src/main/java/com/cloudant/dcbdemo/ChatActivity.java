@@ -29,7 +29,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class ChatActivity extends AppCompatActivity {
 
     private ArrayAdapter<Message> listAdapter = null;
     private ListView listView = null;
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
 
-        username = getIntent().getStringExtra("username");
+        username = getIntent().getStringExtra(BundleConstants.USERNAME);
 
         setContentView(R.layout.activity_main);
 
@@ -63,14 +63,12 @@ public class MainActivity extends AppCompatActivity {
 
         listAdapter = new ArrayAdapter<Message>(this,R.layout.list_item);
         listView.setAdapter(listAdapter);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainActivity.this.startActivityForResult(new Intent(MainActivity.this,
+                ChatActivity.this.startActivityForResult(new Intent(ChatActivity.this,
                         SendMessage.class), 1);
             }
         });
@@ -88,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         } catch (DatastoreNotCreatedException e) {
-            Log.e(MainActivity.class.getCanonicalName(), "Failed to create datastore", e);
+            Log.e(ChatActivity.class.getCanonicalName(), "Failed to create datastore", e);
             this.finish();
         }
 
@@ -223,8 +221,8 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(URI uri) {
             super.onPostExecute(uri);
 
-            Intent intent = new Intent(MainActivity.this, ReplicationService.class);
-            MainActivity.this.bindService(intent,
+            Intent intent = new Intent(ChatActivity.this, ReplicationService.class);
+            ChatActivity.this.bindService(intent,
                     mConnection,
                     Context.BIND_AUTO_CREATE);
         }

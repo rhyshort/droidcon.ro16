@@ -94,7 +94,7 @@ public class ReplicationService extends Service {
             replicators[1].start();
 
         } catch (DatastoreNotCreatedException e) {
-            Log.e(MainActivity.class.getCanonicalName(), "Failed to create datastore", e);
+            Log.e(ChatActivity.class.getCanonicalName(), "Failed to create datastore", e);
             return;
         }
 
