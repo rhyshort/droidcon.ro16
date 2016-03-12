@@ -23,13 +23,14 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
+        Button signInButton = (Button) findViewById(R.id.sign_in_button);
+        signInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 String username = usernameView.getText().toString();
-                if(username.isEmpty() && username.trim().isEmpty()){
-                    //show a toast
+                if (username.isEmpty() && username.trim().isEmpty()) {
+                    // We should show a UI message here to get the user to enter a username,
+                    // but for now, we'll just not doing anything.
                     return;
                 }
 

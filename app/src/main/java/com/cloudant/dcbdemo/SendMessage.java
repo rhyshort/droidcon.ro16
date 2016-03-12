@@ -7,13 +7,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+/**
+ * Activity to gather the message to send from the user.
+ */
 public class SendMessage extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-//        savedInstanceState.
 
         setContentView(R.layout.activity_send_message);
 
@@ -21,11 +22,9 @@ public class SendMessage extends AppCompatActivity {
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //bundle save and finish.
-
+                // Get the data from the UI and send back to the calling activity.
                 String text = ((EditText)findViewById(R.id.editText)).getText().toString();
 
-                //bundle it
                 Intent intent = new Intent();
                 intent.putExtra("message",text);
                 setResult(0,intent);

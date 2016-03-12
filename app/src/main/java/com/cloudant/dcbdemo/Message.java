@@ -13,7 +13,8 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * Created by Rhys Short on 28/01/2016.
+ * A Class to transform a document into a displable format, and transform a
+ * new message into a document revision.
  */
 public class Message implements Comparable<Message>
 {
@@ -24,6 +25,9 @@ public class Message implements Comparable<Message>
     private String user;
 
 
+    /**
+     * Constrcutor which makes a new message object, it will generate the times string.
+     */
     public Message(@NonNull String user, @NonNull String message){
         this.user = user;
         this.message = message;
@@ -36,6 +40,12 @@ public class Message implements Comparable<Message>
 
     }
 
+    /**
+     * Creates a message object from a DocumentRevision, this should be primarly used to generate
+     * a message object from a saved document.
+     * @param revision The revision which contains the information to populate the
+     *                 message object with.
+     */
     public Message(@NonNull BasicDocumentRevision revision){
         Map<String,Object> body = revision.getBody().asMap();
         //for now cast will need to polish
@@ -45,6 +55,12 @@ public class Message implements Comparable<Message>
 
     }
 
+    /**
+     * Turns this message into a MutableDoumentRevision for saving,
+     * it <strong>will not</strong> contain an ID so it will
+     * always create new unique documents when saved to the datastore.
+     * @return a new MutableDocumentRevision.
+     */
     public @NonNull MutableDocumentRevision toRevision(){
         Map<String,String> body = new HashMap<String, String>();
         body.put("timestamp",timestamp);
@@ -58,20 +74,27 @@ public class Message implements Comparable<Message>
         return revision;
     }
 
+
+    /**
+     * Generates a string representation of the object,
+     * it is used to display the message in the list view,
+     * so it takes the form of Username: "Message"
+     * @return
+     */
     @Override
     public String toString() {
-        //message will eventually be
-        // *Username*
-        // Message
-
-
-        //for now just use colons
         StringBuilder stringBuilder = new StringBuilder(user);
         stringBuilder.append(": ");
         stringBuilder.append(message);
         return stringBuilder.toString();
     }
 
+    /**
+     * Comparator for messages, this only performs the compare on the internal
+     * date of the message, this allows messages to be ordered by date.
+     * @param another The message to compare to
+     * @return
+     */
     @Override
     public int compareTo(Message another) {
         return this.date.compareTo(another.date);

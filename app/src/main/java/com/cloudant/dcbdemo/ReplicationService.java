@@ -29,10 +29,17 @@ import java.net.URI;
 import java.net.URL;
 import java.util.Map;
 
+/**
+ * A Android Service which runs the background replications to
+ * keep the data displayed up to date.
+ */
 public class ReplicationService extends Service {
 
 
-
+    /**
+     * Boardcast reciever that should be dynmaically created
+     * to start replicators that have completed.
+     */
     private final BroadcastReceiver receiver = new BroadcastReceiver(){
 
         @Override
@@ -107,24 +114,29 @@ public class ReplicationService extends Service {
     }
 
     @Subscribe
-    public void replicationComplete(ReplicationCompleted replicationCompleted){
+    public void replicationComplete(ReplicationCompleted replicationCompleted) {
         numberOfReplicatorsCompleted++;
         DCDatastoreManager.getEventBus().post(replicationCompleted);
 
-        if(numberOfReplicatorsCompleted == 2){
+        // only schedule the next set of replications if
+        // both replicators have completed.
+        if (numberOfReplicatorsCompleted == 2) {
             numberOfReplicatorsCompleted = 0;
 
-            alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+            alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent("com.cloudant.DCBDemo.Replicate");
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(this,1,intent,0);
-            alarmManager.setExact(AlarmManager.ELAPSED_REALTIME,1000,pendingIntent);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+            alarmManager.setExact(AlarmManager.ELAPSED_REALTIME, 1000, pendingIntent);
 
         }
 
 
-        //here we will set the next replication.
     }
 
+    /**
+     * An Async task that calls out to a webservice to retrieve the URL from which to replicate.
+     * It enables us not to include credentials in the application source.
+     */
     private class DBURLTask extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -144,7 +156,7 @@ public class ReplicationService extends Service {
                      makeReplicators(json.get("url"));
 
                 } else {
-                    //task failed. handle this.
+                    // Failed to get the URL from the remote, a real app should handle this.
                     Log.i("MyTag","StatusCode is oddd");
                 }
 
@@ -161,7 +173,6 @@ public class ReplicationService extends Service {
         @Override
         protected void onPostExecute(Void uri) {
             super.onPostExecute(uri);
-
         }
     }
 }

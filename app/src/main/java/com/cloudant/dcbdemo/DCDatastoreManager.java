@@ -6,7 +6,8 @@ import com.cloudant.sync.datastore.DatastoreManager;
 import com.google.common.eventbus.EventBus;
 
 /**
- * Created by Rhys Short on 28/01/2016.
+ * A class to make a single Datastore manager visible app wide,
+ * this is probably not a great practise to have.
  */
 public class DCDatastoreManager {
 
@@ -17,7 +18,7 @@ public class DCDatastoreManager {
 
     public static synchronized DatastoreManager getManager(Context ctx){
         if (manager == null){
-            manager = new DatastoreManager(ctx.getDir("cloudantsync2", Context
+            manager = new DatastoreManager(ctx.getDir("cloudantsync", Context
                     .MODE_PRIVATE));
         }
 
