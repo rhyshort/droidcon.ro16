@@ -131,7 +131,7 @@ public class ReplicationService extends Service {
         protected Void doInBackground(Void... params) {
 
             try {
-                URL bluemix = new URL("http://droidconro.eu-gb.mybluemix.net/?user=katytest");
+                URL bluemix = new URL("http://droidconro.eu-gb.mybluemix.net/?user=droidro16");
                 HttpURLConnection connection = (HttpURLConnection) bluemix.openConnection();
                 connection.connect();
 

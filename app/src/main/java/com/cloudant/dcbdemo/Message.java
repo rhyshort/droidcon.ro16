@@ -25,7 +25,6 @@ public class Message implements Comparable<Message>
 
 
     public Message(@NonNull String user, @NonNull String message){
-        //timestamp will be generated here
         this.user = user;
         this.message = message;
 
@@ -46,7 +45,7 @@ public class Message implements Comparable<Message>
 
     }
 
-    public MutableDocumentRevision toRevision(){
+    public @NonNull MutableDocumentRevision toRevision(){
         Map<String,String> body = new HashMap<String, String>();
         body.put("timestamp",timestamp);
         body.put("message",message);

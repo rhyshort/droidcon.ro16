@@ -4,7 +4,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.design.widget.FloatingActionButton;
@@ -25,7 +24,6 @@ import com.cloudant.sync.datastore.DocumentNotFoundException;
 import com.cloudant.sync.notifications.ReplicationCompleted;
 import com.google.common.eventbus.Subscribe;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,9 +33,9 @@ public class ChatActivity extends AppCompatActivity {
     private ListView listView = null;
 
     private String username;
-
     private Datastore datastore;
     private com.cloudant.sync.replication.ReplicationService mReplicationService;
+
     private ServiceConnection mConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -82,12 +80,12 @@ public class ChatActivity extends AppCompatActivity {
 
         //set up the datastore
         DatastoreManager manager = DCDatastoreManager.getManager(this);
+
         try {
+
             datastore = manager.openDatastore("droidcon16");
             DCDatastoreManager.getEventBus().register(this);
             updateMessages();
-
-
 
         } catch (DatastoreNotCreatedException e) {
             Log.e(ChatActivity.class.getCanonicalName(), "Failed to create datastore", e);
@@ -113,8 +111,8 @@ public class ChatActivity extends AppCompatActivity {
 
                         this.updateMessages();
                     } catch (DocumentException e) {
-                        e.printStackTrace();
-                        //this should never happen
+                        // We shouldn't hit this, since we are only ever creating documents
+                        // with UUIDs
                     }
                 } else {
                     //errored do something.
